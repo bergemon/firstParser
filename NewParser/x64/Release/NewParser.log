@@ -1,8 +1,0 @@
-﻿  main.cpp
-C:\boost_1_82_0\boost\bind.hpp(41): message : The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-  Создание кода
-  57 of 4688 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    40 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  NewParser.vcxproj -> D:\CPP\NewParser\x64\Release\NewParser.exe

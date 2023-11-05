@@ -55,7 +55,9 @@ std::vector<Network::websiteChapters> Network::parseSiteChapters() {
 				else {
 					tmpName = chaptersTmp.substr(chaptersTmp.find(" >") + 2, chaptersTmp.length() - (chaptersTmp.find(" >") + 6));
 					websiteChapters << "\n\n" << "Chapter" << ++chaptersCount << " name/> " << tmpName << '\n';
+				#ifdef DEBUG
 					std::cout << "Name: " << tmpName << '\n';
+				#endif
 
 					int endLength = static_cast<int>(chaptersTmp.length() - (chaptersTmp.find("\" >") - chaptersTmp.find("\"") - 1));
 					tmpUrl = chaptersTmp.substr(chaptersTmp.find("href=\"") + 6, chaptersTmp.length() - endLength);

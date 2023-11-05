@@ -94,9 +94,7 @@ void Network::Client::readHeaderLinesHandler(const boost::system::error_code& ec
 		std::string header_line;
 
 		while (getline(is, header_line) && header_line != "\r") {
-		#ifdef DEBUG
 			std::cout << header_line;
-		#endif
 		}
 
 		asio::async_read(m_socket, m_response, asio::transfer_at_least(1),
@@ -108,6 +106,12 @@ void Network::Client::readHeaderLinesHandler(const boost::system::error_code& ec
 }
 void Network::Client::readResponseBodyHandler(const boost::system::error_code& ec) {
 	if (!ec) {
+		std::istream is(&m_response);
+		std::string readString;
+		while (getline(is, readString)) {
+			std::cout << readString << '\n';
+		}
+
 		asio::async_read(m_socket, m_response, asio::transfer_at_least(1),
 			boost::bind(&Client::readResponseBodyHandler, this, asio::placeholders::error));
 	}

@@ -1,7 +1,5 @@
 #pragma once
-#include "client.hpp"
-
-void downloadImages();
+#include "clientInterface.hpp"
 
 namespace Network{
 
@@ -12,12 +10,11 @@ namespace Network{
 		Images(std::string uri, std::string name) : m_uri(uri), m_name(name) {}
 	};
 
-	class DownloadImages : public Network::Client {
+	class DownloadImages : public ClientInterface {
 	public:
-		DownloadImages(std::unique_ptr<asio::io_context> context, const char* url, std::string fileName)
-			: Client(std::move(context), url), m_fileName(fileName), m_fullPathName("images/" + m_fileName)
-		{
-		}
+		DownloadImages(std::unique_ptr<asio::io_context> context, const char* url, std::string chapter, std::string fileName)
+			: ClientInterface(std::move(context), url, chapter), m_fileName(fileName), m_fullPathName("images/" + m_fileName)
+		{ }
 	protected:
 		std::string m_fileName;
 		std::string m_fullPathName;

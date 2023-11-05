@@ -24,7 +24,7 @@ namespace Network {
 			m_sslContext.set_default_verify_paths();
 		}
 
-		void start() {
+		virtual void start() {
 			m_resolver.async_resolve(m_query, boost::bind(&Client::resolveHandler, this, asio::placeholders::error, asio::placeholders::iterator));
 			m_context->run();
 		}

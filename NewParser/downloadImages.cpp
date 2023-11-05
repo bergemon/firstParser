@@ -3,7 +3,7 @@
 
 // class methods
 void Network::DownloadImages::readHeaderLinesHandler(const boost::system::error_code& ec) {
-	std::ofstream file(m_fullPathName, std::ios::out);
+	std::ofstream file(m_chapterName + '/' + m_fullPathName, std::ios::out);
 
 	if (!ec) {
 		std::istream is(&m_response);
@@ -24,7 +24,7 @@ void Network::DownloadImages::readHeaderLinesHandler(const boost::system::error_
 	}
 }
 void Network::DownloadImages::readResponseBodyHandler(const boost::system::error_code& ec) {
-	std::ofstream file(m_fullPathName, std::ios::out | std::ios::app | std::ios::binary);
+	std::ofstream file(m_chapterName + '/' + m_fullPathName, std::ios::out | std::ios::app | std::ios::binary);
 
 	if (!ec) {
 		file << &m_response;
@@ -45,10 +45,18 @@ void Network::DownloadImages::readResponseBodyHandler(const boost::system::error
 }
 
 // func
-void downloadImages() {
-	std::ifstream file("intermediateFile.txt");
-	std::filesystem::path imagesDir("images");
+void Network::downloadImages(Network::ClientInterface& srcClass) {
+	std::ifstream file(srcClass.m_chapterName + "/intermediateFile.txt");
+	std::filesystem::path imagesDir(srcClass.m_chapterName + "/images");
 	bool exists = std::filesystem::directory_entry(imagesDir).exists();
+	if (exists) {
+		std::filesystem::directory_iterator dirIter(imagesDir);
+		for (const auto& elem : dirIter) {
+			if (!elem.is_directory())
+				std::filesystem::remove(elem);
+		}
+	}
+
 	if (!exists)
 		std::filesystem::create_directory(imagesDir);
 
@@ -65,7 +73,7 @@ void downloadImages() {
 			}
 		}
 		for (const auto& elem : imagesURI) {
-			Network::DownloadImages di(std::make_unique<boost::asio::io_context>(), elem.m_uri.c_str(), elem.m_name);
+			Network::DownloadImages di(std::make_unique<boost::asio::io_context>(), elem.m_uri.c_str(), srcClass.m_chapterName, elem.m_name);
 			di.start();
 		}
 	}

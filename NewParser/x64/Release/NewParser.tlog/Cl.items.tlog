@@ -1,6 +1,8 @@
 D:\CPP\NewParser\NewParser\client.cpp;D:\CPP\NewParser\NewParser\x64\Release\client.obj
 D:\CPP\NewParser\NewParser\downloadImages.cpp;D:\CPP\NewParser\NewParser\x64\Release\downloadImages.obj
+D:\CPP\NewParser\NewParser\finalParse.cpp;D:\CPP\NewParser\NewParser\x64\Release\finalParse.obj
 D:\CPP\NewParser\NewParser\firstParse.cpp;D:\CPP\NewParser\NewParser\x64\Release\firstParse.obj
 D:\CPP\NewParser\NewParser\getEmails.cpp;D:\CPP\NewParser\NewParser\x64\Release\getEmails.obj
 D:\CPP\NewParser\NewParser\main.cpp;D:\CPP\NewParser\NewParser\x64\Release\main.obj
-D:\CPP\NewParser\NewParser\parse.cpp;D:\CPP\NewParser\NewParser\x64\Release\parse.obj
+D:\CPP\NewParser\NewParser\parseSiteChapters.cpp;D:\CPP\NewParser\NewParser\x64\Release\parseSiteChapters.obj
+D:\CPP\NewParser\NewParser\preParse.cpp;D:\CPP\NewParser\NewParser\x64\Release\preParse.obj

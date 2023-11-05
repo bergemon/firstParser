@@ -137,13 +137,16 @@
   <ItemGroup>
     <ClCompile Include="client.cpp" />
     <ClCompile Include="downloadImages.cpp" />
+    <ClCompile Include="finalParse.cpp" />
     <ClCompile Include="firstParse.cpp" />
     <ClCompile Include="getEmails.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="parse.cpp" />
+    <ClCompile Include="parseSiteChapters.cpp" />
+    <ClCompile Include="preParse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.hpp" />
+    <ClInclude Include="clientInterface.hpp" />
     <ClInclude Include="dependencies.hpp" />
     <ClInclude Include="downloadImages.hpp" />
     <ClInclude Include="firstParse.hpp" />

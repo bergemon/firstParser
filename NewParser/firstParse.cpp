@@ -1,8 +1,7 @@
 #include "firstParse.hpp"
 
-
 void Network::FirstParse::readHeaderLinesHandler(const boost::system::error_code& ec) {
-	std::ofstream file("tempFile.txt", std::ios::out);
+	std::ofstream("tempFile.txt", std::ios::out);
 
 	if (!ec) {
 		std::istream is(&m_response);

@@ -9,7 +9,7 @@ namespace Network {
 		websiteChapters(std::string url, std::string name) : m_url(url), m_name(name)
 		{}
 	};
-	std::vector<websiteChapters> parseSiteChapters();
+	std::vector<websiteChapters> parseSiteChapters(const char* url);
 
 	class ClientInterface : public Client {
 	protected:
@@ -26,13 +26,13 @@ namespace Network {
 			m_context->run();
 		}
 
-		friend void preParse(Network::ClientInterface& srcClass);
+		friend void preParse(Network::ClientInterface& srcClass, std::string siteUrl);
 		friend void downloadImages(Network::ClientInterface& srcClass);
 		friend void getEmails(Network::ClientInterface& srcClass);
 		friend void finalParse(Network::ClientInterface& srcClass);
 	};
 
-	void preParse(Network::ClientInterface& srcClass);
+	void preParse(Network::ClientInterface& srcClass, std::string siteUrl);
 	void downloadImages(Network::ClientInterface& srcClass);
 	void getEmails(Network::ClientInterface& srcClass);
 	void finalParse(Network::ClientInterface& srcClass);

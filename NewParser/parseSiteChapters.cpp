@@ -1,6 +1,20 @@
 #include "clientInterface.hpp"
+#include <string>
+#include <codecvt>
+#include <locale>
 
-std::vector<Network::websiteChapters> Network::parseSiteChapters() {
+std::string utf8_to_string(const char* utf8str, const std::locale& loc)
+{
+	// UTF-8 to wstring
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> wconv;
+	std::wstring wstr = wconv.from_bytes(utf8str);
+	// wstring to string
+	std::vector<char> buf(wstr.size());
+	std::use_facet<std::ctype<wchar_t>>(loc).narrow(wstr.data(), wstr.data() + wstr.size(), '?', buf.data());
+	return std::string(buf.data(), buf.size());
+}
+
+std::vector<Network::websiteChapters> Network::parseSiteChapters(const char* url) {
 	{
 		std::ofstream("chaptersTemp.txt", std::ios::out);
 	}
@@ -34,43 +48,42 @@ std::vector<Network::websiteChapters> Network::parseSiteChapters() {
 	if (chaptersTemp.is_open())
 		chaptersTemp.close();
 
-	std::vector<Network::websiteChapters> chaptersBuffer;
 	{
 		std::ofstream websiteChapters("websiteChapters.txt", std::ios::out);
+	}
+	std::vector<Network::websiteChapters> chaptersBuffer;
+	std::ifstream readChapters("chaptersTemp.txt");
+	std::ofstream websiteChapters("websiteChapters.txt", std::ios::out | std::ios::app);
 
-		{
-			std::ifstream readChapters("chaptersTemp.txt");
-			std::ofstream websiteChapters("websiteChapters.txt", std::ios::out | std::ios::app);
+	std::string chaptersTmp;
+	int chaptersCount = 1;
+	std::string tmpName;
+	std::string tmpUrl;
+	while (getline(readChapters, chaptersTmp)) {
+		if (chaptersCount < 2) {
+			websiteChapters << "Chapter" << ++chaptersCount << " name/> " << chaptersTmp << '\n';
+			websiteChapters << "Chapter" << chaptersCount << " url/> " << url;
+			chaptersBuffer.push_back(Network::websiteChapters(url, chaptersTmp));
+		}
+		else {
+			tmpName = chaptersTmp.substr(chaptersTmp.find(" >") + 2, chaptersTmp.length() - (chaptersTmp.find(" >") + 6));
+		#ifdef DEBUG
+			std::cout << "Name: " << tmpName << '\n';
+		#endif
+			websiteChapters << "\n\n" << "Chapter" << ++chaptersCount << " name/> " << tmpName << '\n';
 
-			std::string chaptersTmp;
-			int chaptersCount = 1;
-			std::string tmpName;
-			std::string tmpUrl;
-			while (getline(readChapters, chaptersTmp)) {
-				if (chaptersCount < 2) {
-					websiteChapters << "Chapter" << ++chaptersCount << " name/> " << chaptersTmp << '\n';
-					websiteChapters << "Chapter" << chaptersCount << " url/> https://vodochet.ru/";
-					chaptersBuffer.push_back(Network::websiteChapters("https://vodochet.ru/", chaptersTmp));
-				}
-				else {
-					tmpName = chaptersTmp.substr(chaptersTmp.find(" >") + 2, chaptersTmp.length() - (chaptersTmp.find(" >") + 6));
-					websiteChapters << "\n\n" << "Chapter" << ++chaptersCount << " name/> " << tmpName << '\n';
-				#ifdef DEBUG
-					std::cout << "Name: " << tmpName << '\n';
-				#endif
+			int endLength = static_cast<int>(chaptersTmp.length() - (chaptersTmp.find("\" >") - chaptersTmp.find("\"") - 1));
+			tmpUrl = chaptersTmp.substr(chaptersTmp.find("href=\"") + 6, chaptersTmp.length() - endLength);
+			websiteChapters << "Chapter" << chaptersCount << " url/> " << url << tmpUrl;
 
-					int endLength = static_cast<int>(chaptersTmp.length() - (chaptersTmp.find("\" >") - chaptersTmp.find("\"") - 1));
-					tmpUrl = chaptersTmp.substr(chaptersTmp.find("href=\"") + 6, chaptersTmp.length() - endLength);
-					websiteChapters << "Chapter" << chaptersCount << " url/> " << "https://vodochet.ru/" << tmpUrl;
-
-					chaptersBuffer.push_back(Network::websiteChapters(tmpName, "https://vodochet.ru/" + tmpUrl));
-				}
-			}
-			readChapters.close();
-			websiteChapters.close();
+			std::string ansiName = utf8_to_string(tmpName.c_str(), std::locale(".1251"));
+			chaptersBuffer.push_back(Network::websiteChapters(url + tmpUrl + '/', ansiName));
 		}
 	}
+	readChapters.close();
+	websiteChapters.close();
 
+	//std::filesystem::remove("tempFile.txt");
 	std::filesystem::remove("chaptersTemp.txt");
 	return chaptersBuffer;
 }

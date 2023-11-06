@@ -13,7 +13,7 @@ namespace Network{
 	class DownloadImages : public ClientInterface {
 	public:
 		DownloadImages(std::unique_ptr<asio::io_context> context, const char* url, std::string chapter, std::string fileName)
-			: ClientInterface(std::move(context), url, chapter), m_fileName(fileName), m_fullPathName("images/" + m_fileName)
+			: ClientInterface(std::move(context), url, chapter), m_fileName(fileName), m_fullPathName(chapter + "/images/" + m_fileName)
 		{ }
 	protected:
 		std::string m_fileName;

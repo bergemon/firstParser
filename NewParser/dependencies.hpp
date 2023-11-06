@@ -4,6 +4,7 @@
 #define _WIN32_WINNT 0x0601
 #endif _WIN32
 
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 #define BOOST_NETWORK_ENABLE_HTTPS
 #pragma comment (lib, "crypt32")
 
@@ -21,5 +22,7 @@
 #include <filesystem>
 #include <vector>
 #include <chrono>
+#include <thread>
+#include <memory>
 
 //#define DEBUG

@@ -20,13 +20,13 @@ void Network::Client::resolveHandler(const boost::system::error_code& ec, tcp::r
 			return true;
 		});
 		m_socket.lowest_layer().async_connect(ep_iterator->endpoint(),
-			boost::bind(&Client::connectionHandler, this, asio::placeholders::error, asio::placeholders::iterator));
+			boost::bind(&Client::connectionHandler, this, asio::placeholders::error));
 	}
 	else {
 		std::cout << "[Resolve] Error: " << ec.what() << '\n';
 	}
 }
-void Network::Client::connectionHandler(const boost::system::error_code& ec, tcp::resolver::iterator ep_iterator) {
+void Network::Client::connectionHandler(const boost::system::error_code& ec) {
 	if (!ec) {
 	#ifdef DEBUG
 		std::cout << "[Connection] Connected to " << m_url.host() << '\n';
@@ -38,8 +38,8 @@ void Network::Client::connectionHandler(const boost::system::error_code& ec, tcp
 	else {
 		std::cout << "[Connection] Error: " << ec.what() << '\n';
 
-		m_socket.lowest_layer().async_connect(ep_iterator->endpoint(),
-			boost::bind(&Client::connectionHandler, this, asio::placeholders::error, asio::placeholders::iterator));
+		// Connecting to host again
+		start();
 	}
 }
 void Network::Client::handshakeHandler(const boost::system::error_code& ec) {

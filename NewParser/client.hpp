@@ -33,7 +33,7 @@ namespace Network {
 	protected:
 		std::string fixUrlString(std::string srcStr);
 		void resolveHandler(const boost::system::error_code& ec, tcp::resolver::iterator ep_iterator);
-		void connectionHandler(const boost::system::error_code& ec);
+		void connectionHandler(const boost::system::error_code& ec, tcp::resolver::iterator ep_iterator);
 		void handshakeHandler(const boost::system::error_code& ec);
 		void requestHandler(const boost::system::error_code& ec, size_t bytes);
 		void readStatusHandler(const boost::system::error_code& ec);

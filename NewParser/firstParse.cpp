@@ -1,7 +1,17 @@
 #include "firstParse.hpp"
 
+std::string Network::FirstParse::getCity(const char* src) {
+	std::string tempStr{ src };
+
+	if (m_url.host().find(".") == m_url.host().rfind(".")) {
+		return std::string("msk");
+	}
+
+	return tempStr.substr(8, tempStr.size() - (tempStr.size() - tempStr.find(".") + 8));
+}
+
 void Network::FirstParse::readHeaderLinesHandler(const boost::system::error_code& ec) {
-	std::ofstream("tempFile.txt", std::ios::out);
+	std::ofstream(m_city + "/tempFile.txt", std::ios::out);
 
 	if (!ec) {
 		std::istream is(&m_response);
@@ -22,7 +32,7 @@ void Network::FirstParse::readHeaderLinesHandler(const boost::system::error_code
 	}
 }
 void Network::FirstParse::readResponseBodyHandler(const boost::system::error_code& ec) {
-	std::ofstream file("tempFile.txt", std::ios::out | std::ios::app);
+	std::ofstream file(m_city + "/tempFile.txt", std::ios::out | std::ios::app);
 
 	if (!ec) {
 		file << &m_response;

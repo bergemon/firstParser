@@ -1,75 +1,95 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Файлы заголовков">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Файлы ресурсов">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{d0f6baed-60bd-4ddd-a1a2-f45e21bc91b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParseFunctions">
+      <UniqueIdentifier>{e7eed3cd-5d90-4b14-8b97-984c8d80dfc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\Base classes">
+      <UniqueIdentifier>{1c6400c5-0dd2-4b4b-8b9e-b62322bed786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{4078d74c-c2ea-4c3c-a964-d0e03d88cd0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParseFunctions\HeaderFiles">
+      <UniqueIdentifier>{649994d0-bebd-4b52-b36f-a5f4d01cf1b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ChildClasses">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ChildClasses\HeaderFiles">
+      <UniqueIdentifier>{1ff46f58-4a18-46da-8abb-14f8d91c4190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\Base classes\HeaderFiles">
+      <UniqueIdentifier>{4d53b00d-7799-4489-994a-0231d02d6b15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="client.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="firstParse.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="preParse.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>ChildClasses</Filter>
     </ClCompile>
     <ClCompile Include="downloadImages.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>ChildClasses</Filter>
     </ClCompile>
-    <ClCompile Include="getEmails.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="clientInterface.cpp">
+      <Filter>Dependencies\Base classes</Filter>
     </ClCompile>
-    <ClCompile Include="finalParse.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="client.cpp">
+      <Filter>Dependencies\Base classes</Filter>
+    </ClCompile>
+    <ClCompile Include="preParse.cpp">
+      <Filter>ParseFunctions</Filter>
     </ClCompile>
     <ClCompile Include="parseSiteChapters.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>ParseFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="finalParse.cpp">
+      <Filter>ParseFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="getEmails.cpp">
+      <Filter>ChildClasses</Filter>
     </ClCompile>
     <ClCompile Include="parseChapter.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>ParseFunctions</Filter>
     </ClCompile>
     <ClCompile Include="parseOtherChapters.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>ChildClasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="client.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="dependencies.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="downloadImages.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="getEmails.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="firstParse.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="clientInterface.hpp">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Dependencies</Filter>
     </ClInclude>
     <ClInclude Include="parseChapter.hpp">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>ParseFunctions\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="downloadImages.hpp">
+      <Filter>ChildClasses\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="firstParse.hpp">
+      <Filter>ChildClasses\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="getEmails.hpp">
+      <Filter>ChildClasses\HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="parseOtherChapters.hpp">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>ChildClasses\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="client.hpp">
+      <Filter>Dependencies\Base classes\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="clientInterface.hpp">
+      <Filter>Dependencies\Base classes\HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

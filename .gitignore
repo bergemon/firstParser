@@ -1,4 +1,6 @@
+*.txt
 /x64
 /.vs
 /.git
 /NewParser/x64
+/NewParser/*.txt

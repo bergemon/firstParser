@@ -2,7 +2,7 @@
 
 // methods
 void Network::GetEmail::readHeaderLinesHandler(const boost::system::error_code& ec) {
-	std::ofstream(m_chapterName + "/tempEmailHtml.txt", std::ios::out);
+	std::ofstream(m_city + '/' + m_chapterName + "/tempEmailHtml.txt", std::ios::out);
 
 	if (!ec) {
 		std::istream is(&m_response);
@@ -23,9 +23,9 @@ void Network::GetEmail::readHeaderLinesHandler(const boost::system::error_code& 
 	}
 }
 void Network::GetEmail::readResponseBodyHandler(const boost::system::error_code& ec) {
-	std::ofstream file(m_chapterName + "/tempEmailHtml.txt", std::ios::out | std::ios::app | std::ios::binary);
-	std::ofstream oFile(m_chapterName + "/parsedEmails.txt", std::ios::out | std::ios::app);
-	std::ifstream iFile(m_chapterName + "/tempEmailHtml.txt");
+	std::ofstream file(m_city + '/' + m_chapterName + "/tempEmailHtml.txt", std::ios::out | std::ios::app);
+	std::ofstream oFile(m_city + '/' + m_chapterName + "/parsedEmails.txt", std::ios::out | std::ios::app);
+	std::ifstream iFile(m_city + '/' + m_chapterName + "/tempEmailHtml.txt");
 	bool found = false;
 
 	if (!ec) {
@@ -66,9 +66,9 @@ void Network::GetEmail::readResponseBodyHandler(const boost::system::error_code&
 
 void Network::getEmails(Network::ClientInterface& srcClass) {
 	{
-		std::ofstream oFile(srcClass.m_chapterName + "/parsedEmails.txt", std::ios::out);
+		std::ofstream oFile(srcClass.m_city + '/' + srcClass.m_chapterName + "/parsedEmails.txt", std::ios::out);
 	}
-	std::ifstream iFile(srcClass.m_chapterName + "/intermediateFile.txt");
+	std::ifstream iFile(srcClass.m_city + '/' + srcClass.m_chapterName + "/intermediateFile.txt");
 
 	std::string tempStr;
 	std::string url;
@@ -81,5 +81,5 @@ void Network::getEmails(Network::ClientInterface& srcClass) {
 	}
 	iFile.close();
 
-	std::filesystem::remove(srcClass.m_chapterName + "/tempEmailHtml.txt");
+	std::filesystem::remove(srcClass.m_city + '/' + srcClass.m_chapterName + "/tempEmailHtml.txt");
 }

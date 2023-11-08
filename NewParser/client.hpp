@@ -11,6 +11,7 @@ namespace Network {
 		asio::ssl::context m_sslContext;
 		asio::ssl::stream<tcp::socket> m_socket;
 		boost::urls::url m_url;
+		std::string m_fixedUrl;
 		tcp::resolver m_resolver;
 		tcp::resolver::query m_query;
 		asio::streambuf m_request;
@@ -18,7 +19,7 @@ namespace Network {
 
 	public:
 		Client(std::unique_ptr<asio::io_context> context, const char* url) : m_context(std::move(context)),
-			m_url(url), m_sslContext(asio::ssl::context::method::sslv23_client), m_socket(*m_context, m_sslContext),
+			m_url(fixUrlString(url)), m_sslContext(asio::ssl::context::method::sslv23_client), m_socket(*m_context, m_sslContext),
 			m_resolver(*m_context), m_query(m_url.host(), m_url.scheme())
 		{
 			m_sslContext.set_default_verify_paths();
@@ -30,6 +31,7 @@ namespace Network {
 		}
 
 	protected:
+		std::string fixUrlString(std::string srcStr);
 		void resolveHandler(const boost::system::error_code& ec, tcp::resolver::iterator ep_iterator);
 		void connectionHandler(const boost::system::error_code& ec);
 		void handshakeHandler(const boost::system::error_code& ec);

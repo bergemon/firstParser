@@ -3,12 +3,12 @@
 
 void Network::preParse(Network::ClientInterface& srcClass, std::string siteUrl) {
 	{
-		std::ofstream(srcClass.m_chapterName + "/intermediateFile.txt", std::ios::out);
+		std::ofstream(srcClass.m_city + '/' + srcClass.m_chapterName + "/intermediateFile.txt", std::ios::out);
 	}
-	std::filesystem::remove(srcClass.m_chapterName + "/final.txt");
+	std::filesystem::remove(srcClass.m_city + '/' + srcClass.m_chapterName + "/final.txt");
 
-	std::ifstream file(srcClass.m_chapterName + "/tempFile.txt");
-	std::ofstream moddedFile(srcClass.m_chapterName + "/intermediateFile.txt", std::ios::out | std::ios::app);
+	std::ifstream file(srcClass.m_city + '/' + srcClass.m_chapterName + "/tempFile.txt");
+	std::ofstream moddedFile(srcClass.m_city + '/' + srcClass.m_chapterName + "/intermediateFile.txt", std::ios::out | std::ios::app);
 
 	if (file.is_open() && moddedFile.is_open()) {
 		std::string tmpStr;
@@ -54,6 +54,6 @@ void Network::preParse(Network::ClientInterface& srcClass, std::string siteUrl) 
 		if (moddedFile.is_open())
 			moddedFile.close();
 
-		std::filesystem::remove(srcClass.m_chapterName + "/tempFile.txt");
+		std::filesystem::remove(srcClass.m_city + '/' + srcClass.m_chapterName + "/tempFile.txt");
 	}
 }

@@ -1,7 +1,7 @@
 #include "parseOtherChapters.hpp"
 
 void Network::ParseOtherChapters::readHeaderLinesHandler(const boost::system::error_code& ec) {
-	std::ofstream(m_chapterName + "/tempFile.txt", std::ios::out);
+	std::ofstream(m_city + '/' + m_chapterName + "/tempFile.txt", std::ios::out);
 
 	if (!ec) {
 		std::istream is(&m_response);
@@ -22,7 +22,7 @@ void Network::ParseOtherChapters::readHeaderLinesHandler(const boost::system::er
 	}
 }
 void Network::ParseOtherChapters::readResponseBodyHandler(const boost::system::error_code& ec) {
-	std::ofstream file(m_chapterName + "/tempFile.txt", std::ios::out | std::ios::app);
+	std::ofstream file(m_city + '/' + m_chapterName + "/tempFile.txt", std::ios::out | std::ios::app);
 
 	if (!ec) {
 		file << &m_response;

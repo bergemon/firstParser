@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="clientInterface.cpp" />
     <ClCompile Include="downloadImages.cpp" />
     <ClCompile Include="finalParse.cpp" />
     <ClCompile Include="firstParse.cpp" />

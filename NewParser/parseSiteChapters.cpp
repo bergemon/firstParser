@@ -1,4 +1,5 @@
 #include "clientInterface.hpp"
+#include "firstParse.hpp"
 #include <string>
 #include <codecvt>
 #include <locale>
@@ -14,12 +15,12 @@ std::string utf8_to_string(const char* utf8str, const std::locale& loc)
 	return std::string(buf.data(), buf.size());
 }
 
-std::vector<Network::websiteChapters> Network::parseSiteChapters(const char* url) {
+std::vector<Network::websiteChapters> Network::parseSiteChapters(Network::FirstParse& srcClass, const char* url) {
 	{
-		std::ofstream("chaptersTemp.txt", std::ios::out);
+		std::ofstream(srcClass.m_city + "/chaptersTemp.txt", std::ios::out);
 	}
-	std::ifstream file("tempFile.txt");
-	std::ofstream chaptersTemp("chaptersTemp.txt", std::ios::out | std::ios::app);
+	std::ifstream file(srcClass.m_city + "/tempFile.txt");
+	std::ofstream chaptersTemp(srcClass.m_city + "/chaptersTemp.txt", std::ios::out | std::ios::app);
 
 	std::string tempString;
 	std::string siteChapters;
@@ -32,10 +33,10 @@ std::vector<Network::websiteChapters> Network::parseSiteChapters(const char* url
 	}
 
 	std::string firstChapter = siteChapters.substr(siteChapters.find("<span>") + 6, siteChapters.find("</span>") - (siteChapters.find("<span>") + 6));
-	chaptersTemp << firstChapter << '\n';
-	siteChapters = siteChapters.substr(siteChapters.find("<li>"), siteChapters.length() - siteChapters.find("<li>"));
+	chaptersTemp << firstChapter << "\n";
+	siteChapters = siteChapters.substr(siteChapters.find("<li>"), siteChapters.size() - siteChapters.find("<li>"));
 
-	std::string tempStr{ siteChapters };
+	std::string tempStr{siteChapters};
 	std::string intermediateStr;
 	std::vector<std::string> siteChaptersBuffer;
 	while (tempStr.find("<li>") != -1) {
@@ -45,15 +46,14 @@ std::vector<Network::websiteChapters> Network::parseSiteChapters(const char* url
 		chaptersTemp << temp << '\n';
 	}
 
+	if (file.is_open())
+		file.close();
 	if (chaptersTemp.is_open())
 		chaptersTemp.close();
+	std::filesystem::remove(srcClass.m_city + "/tempFile.txt");
 
-	{
-		std::ofstream websiteChapters("websiteChapters.txt", std::ios::out);
-	}
 	std::vector<Network::websiteChapters> chaptersBuffer;
-	std::ifstream readChapters("chaptersTemp.txt");
-	std::ofstream websiteChapters("websiteChapters.txt", std::ios::out | std::ios::app);
+	std::ifstream readChapters(srcClass.m_city + "/chaptersTemp.txt");
 
 	std::string chaptersTmp;
 	int chaptersCount = 1;
@@ -61,29 +61,26 @@ std::vector<Network::websiteChapters> Network::parseSiteChapters(const char* url
 	std::string tmpUrl;
 	while (getline(readChapters, chaptersTmp)) {
 		if (chaptersCount < 2) {
-			websiteChapters << "Chapter" << ++chaptersCount << " name/> " << chaptersTmp << '\n';
-			websiteChapters << "Chapter" << chaptersCount << " url/> " << url;
-			chaptersBuffer.push_back(Network::websiteChapters(url, chaptersTmp));
+			std::string ansiName = utf8_to_string(chaptersTmp.c_str(), std::locale(".1251"));
+			chaptersBuffer.push_back(Network::websiteChapters(url, ansiName));
+			chaptersCount++;
 		}
 		else {
 			tmpName = chaptersTmp.substr(chaptersTmp.find(" >") + 2, chaptersTmp.length() - (chaptersTmp.find(" >") + 6));
 		#ifdef DEBUG
 			std::cout << "Name: " << tmpName << '\n';
 		#endif
-			websiteChapters << "\n\n" << "Chapter" << ++chaptersCount << " name/> " << tmpName << '\n';
-
 			int endLength = static_cast<int>(chaptersTmp.length() - (chaptersTmp.find("\" >") - chaptersTmp.find("\"") - 1));
 			tmpUrl = chaptersTmp.substr(chaptersTmp.find("href=\"") + 6, chaptersTmp.length() - endLength);
-			websiteChapters << "Chapter" << chaptersCount << " url/> " << url << tmpUrl;
 
 			std::string ansiName = utf8_to_string(tmpName.c_str(), std::locale(".1251"));
 			chaptersBuffer.push_back(Network::websiteChapters(url + tmpUrl + '/', ansiName));
 		}
 	}
-	readChapters.close();
-	websiteChapters.close();
+	if (readChapters.is_open())
+		readChapters.close();
 
-	//std::filesystem::remove("tempFile.txt");
-	std::filesystem::remove("chaptersTemp.txt");
+	std::filesystem::remove(srcClass.m_city + "/chaptersTemp.txt");
+
 	return chaptersBuffer;
 }

@@ -2,11 +2,11 @@
 
 void Network::finalParse(Network::ClientInterface& srcClass) {
 	{
-		std::ofstream tempParsed(srcClass.m_chapterName + "/final.txt", std::ios::out);
+		std::ofstream tempParsed(srcClass.m_city + '/' + srcClass.m_chapterName + "/final.txt", std::ios::out);
 	}
-	std::ifstream interFile(srcClass.m_chapterName + "/intermediateFile.txt");
-	std::ifstream emails(srcClass.m_chapterName + "/parsedEmails.txt");
-	std::ofstream finallyParsed(srcClass.m_chapterName + "/final.txt", std::ios::out | std::ios::app);
+	std::ifstream interFile(srcClass.m_city + '/' + srcClass.m_chapterName + "/intermediateFile.txt");
+	std::ifstream emails(srcClass.m_city + '/' + srcClass.m_chapterName + "/parsedEmails.txt");
+	std::ofstream finallyParsed(srcClass.m_city + '/' + srcClass.m_chapterName + "/final.txt", std::ios::out | std::ios::app);
 
 	std::string tempInter;
 	std::string tempEmails;
@@ -48,6 +48,6 @@ void Network::finalParse(Network::ClientInterface& srcClass) {
 	emails.close();
 	finallyParsed.close();
 
-	std::filesystem::remove(srcClass.m_chapterName + "/intermediateFile.txt");
-	std::filesystem::remove(srcClass.m_chapterName + "/parsedEmails.txt");
+	std::filesystem::remove(srcClass.m_city + '/' + srcClass.m_chapterName + "/intermediateFile.txt");
+	std::filesystem::remove(srcClass.m_city + '/' + srcClass.m_chapterName + "/parsedEmails.txt");
 }

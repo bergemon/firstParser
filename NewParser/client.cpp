@@ -1,5 +1,11 @@
 #include "client.hpp"
 
+std::string Network::Client::fixUrlString(std::string srcStr) {
+	while (srcStr.find(" ") != -1)
+		srcStr.replace(srcStr.find(" "), 1, "%20");
+
+	return srcStr;
+}
 void Network::Client::resolveHandler(const boost::system::error_code& ec, tcp::resolver::iterator ep_iterator) {
 	if (!ec) {
 		m_socket.set_verify_mode(boost::asio::ssl::verify_peer);
@@ -41,12 +47,20 @@ void Network::Client::handshakeHandler(const boost::system::error_code& ec) {
 
 		std::ostream os(&m_request);
 
-		os << "GET " << m_url.path() << " HTTP/1.0\r\n";
+		if (m_url.path().find(" ") != -1) {
+			std::string fixedPath = fixUrlString(m_url.path());
+			os << "GET " << fixedPath << " HTTP/1.0\r\n";
+		}
+		else {
+			os << "GET " << m_url.path() << " HTTP/1.0\r\n";
+		}
+
 		os << "Host: " << m_url.host() << "\r\n";
 		os << "Accept: */*\r\n";
 		os << "Connection: close\r\n\r\n";
 
-		asio::async_write(m_socket, m_request, boost::bind(&Client::requestHandler, this, asio::placeholders::error, asio::placeholders::bytes_transferred));
+		asio::async_write(m_socket, m_request,
+			boost::bind(&Client::requestHandler, this, asio::placeholders::error, asio::placeholders::bytes_transferred));
 	}
 	else {
 		std::cout << "[Handshake] Error: " << ec.what() << '\n';
